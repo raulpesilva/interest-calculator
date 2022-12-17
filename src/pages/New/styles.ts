@@ -4,6 +4,11 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  position: relative;
   padding: 16px;
+  box-sizing: border-box;
+`;
+
+export const WrapperDate = styled.div`
+  display: flex;
+  gap: 16px;
 `;

@@ -48,7 +48,7 @@
   "material-icon-theme.activeIconPack": "react",
   "cSpell.language": "en,pt,pt_BR",
   "editor.stickyScroll.enabled": true,
-  "cSpell.words": ["Parens", "svgs", "testid"],
+  "cSpell.words": ["datepicker", "Parens", "svgs", "testid"],
   "testing.automaticallyOpenPeekView": "never",
   "[env]": {
     "editor.defaultFormatter": "IronGeek.vscode-env"

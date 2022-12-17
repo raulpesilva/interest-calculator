@@ -37,6 +37,8 @@ body {
   width:  100vw;
   height: 100vh;
   display: flex;
+  background-color: #0A0A0A;
+  color: #fff;
 }
 ol, ul {
 	list-style: none;
@@ -58,6 +60,10 @@ table {
   display: flex;
   width: 100%;
   height: 100%;
+  flex-direction: column;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(100%);
+}
 `;
