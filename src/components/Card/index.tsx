@@ -1,4 +1,4 @@
-import { addHours } from 'date-fns';
+import { setHours } from 'date-fns';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { formatDate, formatMoneyString, Loan, loans } from 'utils';
@@ -15,7 +15,7 @@ export const Card = ({ loan }: { loan: Loan }) => {
         </S.Interest>
         <S.WrapperInfo>
           <S.Name>{loan.name}</S.Name>
-          <S.InitialDate>{formatDate(addHours(new Date(loan.initialDate), 20))}</S.InitialDate>
+          <S.InitialDate>{formatDate(setHours(new Date(loan.initialDate), 20))}</S.InitialDate>
         </S.WrapperInfo>
       </S.Header>
       {infos && (
