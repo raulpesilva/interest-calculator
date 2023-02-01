@@ -75,7 +75,7 @@ export const Home = ({}: HomeProps) => {
     <S.Container>
       <Header title='Empréstimos' withoutNavigation />
       <DisplayTotal title='Total emprestado' value={totals.totalValue} />
-      <DisplayTotal title='Total a receber' value={totals.totalInterest} withColor />
+      <DisplayTotal title='Juros a receber' value={totals.totalInterest} withColor />
       {transactions.map((loan) => (
         <Card loan={loan} key={loan.id} />
       ))}
