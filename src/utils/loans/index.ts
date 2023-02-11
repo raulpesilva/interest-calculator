@@ -17,6 +17,10 @@ export type Loan = {
   transactions: Transaction[];
 };
 
+const normalizeDate = (date: Date) => {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 59, 59);
+};
+
 export class Loans {
   private loans: Map<string, Loan>;
   constructor(initialLoans?: Loan[]) {
@@ -26,7 +30,7 @@ export class Loans {
 
   addLoan(loan: Omit<Loan, 'id' | 'transactions'> & { id?: string }) {
     const id = loan.id ?? Math.random().toString(36).substr(2, 9);
-    const transactions = [{ id: '0', date: loan.initialDate, payed: 0 }];
+    const transactions = [{ id: '0', date: normalizeDate(new Date(loan.initialDate)).toISOString(), payed: 0 }];
     this.loans.set(id, { ...loan, id, transactions });
     this.save();
   }
@@ -48,7 +52,7 @@ export class Loans {
     const transactions = this.getTransactions(id);
     if (!transactions) return;
     transactions.push({ ...transaction, id: Math.random().toString(36).substr(2, 9) });
-    transactions.sort((a, b) => compareAsc(new Date(a.date), new Date(b.date)));
+    transactions.sort((a, b) => compareAsc(normalizeDate(new Date(a.date)), normalizeDate(new Date(b.date))));
     this.save();
   }
 
@@ -57,14 +61,13 @@ export class Loans {
     const loan = this.getLoan(id);
     if (!loan) return;
     if (!transactions) return;
-    const result = [...transactions, { id: 'today', date: new Date().toISOString(), payed: 0 }].reduce(
+    const result = [...transactions, { id: 'today', date: normalizeDate(new Date()).toISOString(), payed: 0 }].reduce(
       (acc, curr, index) => {
         if (index === 0) return { ...acc, date: curr.date };
-        const diff = differenceInDays(new Date(curr.date), new Date(acc.date));
+        const diff = differenceInDays(normalizeDate(new Date(curr.date)), normalizeDate(new Date(acc.date)));
         const interestPercentage = acc.interest * diff;
         const interest = acc.value * interestPercentage + acc.interestToPay;
         const payed = interest - curr.payed;
-
         const value = payed < 0 ? acc.value - Math.abs(payed) : acc.value;
         const interestToPay = payed < 0 ? 0 : payed;
         const total = value + interestToPay;
@@ -112,6 +115,53 @@ export class Loans {
 }
 
 export const loans = new Loans(customLocalStorage.getItem<Loan[]>('loans') ?? []);
+// export const loans = new Loans([
+//   {
+//     id: '1',
+//     name: 'bla',
+//     initialDate: new Date(2022, 11, 9, 23).toISOString(),
+//     value: 12000,
+//     percentageInterest: 25,
+//     observations: 'string',
+//     transactions: [
+//       {
+//         id: '0',
+//         date: new Date(2022, 11, 9, 23).toISOString(),
+//         payed: 0,
+//       },
+//       {
+//         id: '1',
+//         date: new Date(2023, 0, 19).toISOString(),
+//         payed: 4000,
+//       },
+//     ],
+//   },
+//   {
+//     id: '2',
+//     name: 'ble',
+//     initialDate: new Date(2022, 11, 15, 23).toISOString(),
+//     value: 8000,
+//     percentageInterest: 25,
+//     observations: 'string',
+//     transactions: [
+//       {
+//         id: '0',
+//         date: new Date(2022, 11, 15, 23).toISOString(),
+//         payed: 0,
+//       },
+//       {
+//         id: '1',
+//         date: new Date(2023, 0, 19, 22).toISOString(),
+//         payed: 1000,
+//       },
+//       {
+//         id: '2',
+//         date: new Date(2023, 0, 20).toISOString(),
+//         payed: 1300,
+//       },
+//     ],
+//   },
+// ]);
 
 // const a = [
 //   { id: '0', date: subDays(new Date(), 30).toISOString(), payed: 0 },

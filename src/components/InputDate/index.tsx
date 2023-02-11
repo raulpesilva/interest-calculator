@@ -9,7 +9,7 @@ interface DateButtonProps {
   value?: string;
   label: string;
 }
-export const DateButton = forwardRef(({ onClick, value, label }: DateButtonProps, ref) => {
+export const DateButton = forwardRef<HTMLButtonElement, DateButtonProps>(({ onClick, value, label }, ref) => {
   return (
     <S.Container>
       <S.Label>{label}</S.Label>
