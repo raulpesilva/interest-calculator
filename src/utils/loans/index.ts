@@ -17,10 +17,7 @@ export type Loan = {
   transactions: Transaction[];
 };
 
-const normalizeDate = (date: Date) => {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 59, 59);
-};
-
+const normalizeDate = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 59, 59);
 export class Loans {
   private loans: Map<string, Loan>;
   constructor(initialLoans?: Loan[]) {
